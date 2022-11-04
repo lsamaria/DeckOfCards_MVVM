@@ -21,17 +21,18 @@ class CardCellViewModelTests: XCTestCase {
         cardCellViewModel?.setData()
     }
     
-    func testCardCellViewModelBinders() {
+    func testCardCellViewModelValueTextBinder() {
         
         cardCellViewModel?.valueText.bind(callback: { (txt) in
             XCTAssertEqual(txt, "Ace")
         })
+    }
+    
+    func testCardCellViewModelSuitTextBinder() {
         
         cardCellViewModel?.suitText.bind(callback: { (txt) in
             XCTAssertEqual(txt, "Spades")
         })
-        
-        cardCellViewModel?.setData()
     }
     
     override func tearDownWithError() throws {

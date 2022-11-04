@@ -19,9 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         let homeViewModel = HomeViewModel()
-        
         let homeVC = HomeController(with: homeViewModel)
-        
         let navVC = UINavigationController(rootViewController: homeVC)
         
         window?.rootViewController = navVC
