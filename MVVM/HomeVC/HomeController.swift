@@ -11,9 +11,11 @@ class HomeController: UIViewController {
     
     // MARK: - Init
     init(with homeViewModel: HomeViewModel) {
+        
         self.homeViewModel = homeViewModel
         super.init(nibName: nil, bundle: nil)
         
+        navigationItem.title = homeViewModel.title
         view.backgroundColor = homeViewModel.backgroundColor
     }
     
@@ -55,11 +57,9 @@ class HomeController: UIViewController {
     // MARK: - Ivars
     private let homeViewModel: HomeViewModel
     
-    // MARK: - View COntroller Lifecycle
+    // MARK: - View Controller Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        navigationItem.title = homeViewModel.title
         
         layoutUI()
         
@@ -72,7 +72,7 @@ extension HomeController {
     
     private func fetchAPIData() {
         
-        homeViewModel.fetchCards {
+        homeViewModel.fetchCards { [weak self] in
             DispatchQueue.main.async { [weak self] in
                 self?.networkSpinner.stopAnimating()
                 self?.collectionView.reloadData()

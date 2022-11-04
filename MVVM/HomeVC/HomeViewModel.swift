@@ -18,6 +18,7 @@ class HomeViewModel {
     let apiEndpoint = "https://deckofcardsapi.com/api/deck/new/draw/?count=52"
 }
 
+// MARK: - Fetch Deck/Cards
 extension HomeViewModel {
     
     func fetchCards(completion: @escaping ()->Void) {
@@ -46,22 +47,31 @@ extension HomeViewModel {
                 
             case .success(let cards):
                 
-                if cards.isEmpty {
-                    print("\nnothing to display in datasource")
-                    completion()
-                    return
-                }
-                
                 DispatchQueue.main.async { [weak self] in
                     
-                    self?.datasource = cards.compactMap({
-                        
-                        CardCellViewModel(card: $0)
-                    })
-                    
-                    completion()
+                    self?.setDatasource(with: cards, completion: completion)
                 }
             }
         }
+    }
+}
+
+// MARK: - Set Datasource
+extension HomeViewModel {
+    
+    private func setDatasource(with cards: [Card], completion: @escaping ()->Void) {
+        
+        if cards.isEmpty {
+            print("\nnothing to display in datasource")
+            completion()
+            return
+        }
+        
+        datasource = cards.compactMap({
+            
+            CardCellViewModel(card: $0)
+        })
+        
+        completion()
     }
 }

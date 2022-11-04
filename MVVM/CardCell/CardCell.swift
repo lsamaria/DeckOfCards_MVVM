@@ -20,10 +20,10 @@ final class CardCell: UICollectionViewCell {
         return imageView
     }()
     
-    private lazy var networkSpinner: UIActivityIndicatorView = {
+    private lazy var cardImageViewNetworkSpinner: UIActivityIndicatorView = {
         let activityIndicatorView = UIActivityIndicatorView(style: .medium)
         activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicatorView.color = .gray
+        activityIndicatorView.color = .white
         return activityIndicatorView
     }()
     
@@ -52,6 +52,8 @@ final class CardCell: UICollectionViewCell {
         didSet {
             
             guard let cardCellViewModel = cardCellViewModel else { return }
+            
+            cardImageViewNetworkSpinner.startAnimating()
             
             setupBinders(for: cardCellViewModel)
             
@@ -94,6 +96,7 @@ extension CardCell {
         
         cardCellViewModel.cardImage.bind { [weak self](img) in
             self?.cardImageView.image = img
+            self?.cardImageViewNetworkSpinner.stopAnimating()
         }
     }
 }
@@ -104,7 +107,7 @@ extension CardCell {
     private func layoutUI() {
         
         contentView.addSubview(cardImageView)
-        cardImageView.addSubview(networkSpinner)
+        cardImageView.addSubview(cardImageViewNetworkSpinner)
         contentView.addSubview(suitLabel)
         contentView.addSubview(valueLabel)
         
@@ -116,8 +119,8 @@ extension CardCell {
         cardImageView.widthAnchor.constraint(equalToConstant: cardImageViewWidthHeight).isActive = true
         cardImageView.heightAnchor.constraint(equalToConstant: cardImageViewWidthHeight).isActive = true
         
-        networkSpinner.centerYAnchor.constraint(equalTo: cardImageView.centerYAnchor).isActive = true
-        networkSpinner.centerXAnchor.constraint(equalTo: cardImageView.centerXAnchor).isActive = true
+        cardImageViewNetworkSpinner.centerYAnchor.constraint(equalTo: cardImageView.centerYAnchor).isActive = true
+        cardImageViewNetworkSpinner.centerXAnchor.constraint(equalTo: cardImageView.centerXAnchor).isActive = true
         
         let suitLabelLeadingPadding: CGFloat = 5
         let suitLabelTrailingPadding: CGFloat = 8
